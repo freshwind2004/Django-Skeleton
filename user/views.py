@@ -17,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 class CustomBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None):
         try:
-            user = User.objects.get(Q(username=username) | Q(email=username) | Q(telephone=username))
+            user = User.objects.get(Q(username=username) | Q(email=username) | Q(mobile=username))
             if user.check_password(password):
                 return user
         except Exception as e:
@@ -99,11 +99,11 @@ def register(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        telephone = request.POST.get('telephone')
+        mobile = request.POST.get('mobile')
         nickname = request.POST.get('nickname')
         email = request.POST.get('email')
         user = request.user
-        user.telephone = telephone
+        user.mobile = mobile
         user.nickname = nickname
         user.email = email
         user.save()

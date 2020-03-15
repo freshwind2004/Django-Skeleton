@@ -20,8 +20,8 @@ class User(AbstractUser):
     sex   = models.CharField(choices=SEX_CHOICES, max_length=6, verbose_name=_('Sex'))
     nickname    = models.CharField(blank=True, max_length=20, verbose_name=_('Nickname'))
 
-    # USERNAME_FIELD = 'telephone'
-    # 在这里，我们不改变用户名的名称为 telephone， 所以注释掉
+    # USERNAME_FIELD = 'mobile'
+    # 在这里，我们不改变用户名的名称为 mobile， 所以注释掉
 
     class Meta:
         verbose_name = _('User')

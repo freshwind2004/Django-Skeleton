@@ -31,7 +31,7 @@ urlpatterns = [
     path('search/', page.views.search, name='search'),
     path('about/', page.views.about, name='about'),
     # 子系统
-    path('user/', include(users.urls)),
+    path('user/', include(user.urls)),
     # 博客
     path('', page.views.blog_list, name='blog_list'),
     path('create/', page.views.create_blog, name='create_blog'),
