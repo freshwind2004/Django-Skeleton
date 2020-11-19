@@ -72,16 +72,13 @@ $("#collapse").click(function() {
 <div class="wrapper section">
 	<h2>{% trans '编辑账户信息' %}</h2>
 	<div class="row">
-		{% if warning %}
-		<div class="warning">
-			{{warning}}
-		</div>
-		{% endif %}
-		{% if error %}
-		<div class="danger">
-			{{error}}
-		</div>
-		{% endif %}         
+		{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}       
 		<div class="column">
 			<div id="edit-profile">
 				<div class="mb-2">

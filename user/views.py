@@ -12,6 +12,7 @@ from page.models import Blog, BlogCategory, BlogComment
 from page.views import pagination
 
 from django.utils.translation import gettext_lazy as _
+from django.contrib import messages
 
 # 重写登录验证方法，支持账户名和邮箱登录，可扩展其他登录
 class CustomBackend(ModelBackend):
@@ -44,6 +45,7 @@ def change_password(request):
             user = request.user
             user.set_password(password)
             user.save()
+            messages.info(request, _('Password changed, please login again.'))
     return redirect('userpanel')
 
 def log_in(request):
@@ -60,7 +62,8 @@ def log_in(request):
             else:
                 return redirect('userpanel')
         else:
-            return render(request, 'login.html', {'warning':_('您输入的登陆信息不正确，请重试')})
+            messages.warning(request, _('Incorrect login username or credentials, please try again.'))
+            return render(request, 'login.html')
     else:
         return render(request, 'login.html')
 
@@ -80,7 +83,8 @@ def register(request):
         if username != '' and password == repeatpw != '' :
             try:
                 User.objects.get(username=username)
-                return render(request, 'register.html', {'error': _('您选择的用户名已存在！请换一个')})
+                messages.error(request, _('Username existed, choose another one please.'))
+                return render(request, 'register.html')
             except User.DoesNotExist:
                 user = User.objects.create_user(username=username, password=password, nickname=nickname)
                 user.save()
@@ -91,7 +95,8 @@ def register(request):
                 else:
                     return redirect('userpanel')
         else:
-            return render(request, 'register.html', {'warning': _('您输入的注册信息不正确')})
+            messages.warning(request, _('Wrong inputs on registration.'))
+            return render(request, 'register.html')
     else:
         return render(request, 'register.html')
 
